@@ -1,10 +1,12 @@
 TEMPLATE = app
 
+QT += sql
 QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    engine.cpp
+    engine.cpp \
+    sqliteconnector.cpp
 
 RESOURCES += qml.qrc
 
@@ -15,4 +17,5 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    engine.h
+    engine.h \
+    sqliteconnector.h
