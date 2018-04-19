@@ -11,6 +11,7 @@ class Engine : public QObject
     int y = 0;
     int screenH = 480;
     int updateDelay = 5;
+    bool isProgramWork = true;
 
 public:
     explicit Engine(int xPos, int yPos, QObject *parent = 0);
@@ -21,6 +22,7 @@ signals:
 
 public slots:
     void itemRun();
+    void setProgramStatus(bool workStatus);
 };
 
 #endif // ENGINE_H

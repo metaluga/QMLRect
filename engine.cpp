@@ -1,5 +1,6 @@
 #include "engine.h"
 #include <QThread>
+#include <QDebug>
 
 Engine::Engine(int xPos, int yPos, QObject *parent) : QObject(parent), x(xPos), y(yPos)
 {
@@ -9,7 +10,7 @@ Engine::Engine(int xPos, int yPos, QObject *parent) : QObject(parent), x(xPos), 
 void Engine::itemRun()
 {
     bool isUp = true;
-    while(true)
+    while(isProgramWork)
     {
         if(isUp)
         {
@@ -30,5 +31,11 @@ void Engine::itemRun()
         }
         emit posChanged(x, y);
         QThread::msleep(updateDelay);
-     }
+    }
+}
+
+void Engine::setProgramStatus(bool workStatus)
+{
+    qDebug() << workStatus;
+    isProgramWork = workStatus;
 }
