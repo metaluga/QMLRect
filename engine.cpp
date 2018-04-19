@@ -1,7 +1,7 @@
 #include "engine.h"
 #include <QThread>
 
-Engine::Engine(QObject *parent) : QObject(parent)
+Engine::Engine(int xPos, int yPos, QObject *parent) : QObject(parent), x(xPos), y(yPos)
 {
 
 }

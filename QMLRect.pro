@@ -6,7 +6,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     engine.cpp \
-    sqliteconnector.cpp
+    sqliteconnector.cpp \
+    connector.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,4 +19,5 @@ include(deployment.pri)
 
 HEADERS += \
     engine.h \
-    sqliteconnector.h
+    sqliteconnector.h \
+    connector.h

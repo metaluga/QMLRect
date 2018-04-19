@@ -1,5 +1,7 @@
 import QtQuick 2.5
+import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
+import QtQuick.Layouts 1.0
 
 Window {
     visible: true
@@ -10,6 +12,7 @@ Window {
         rectangle1.y=yPos
     }
 
+
     Rectangle {
         id: rectangle1
         x: 240
@@ -19,4 +22,21 @@ Window {
         color: "#fd1414"
         radius: 1
     }
+
+    signal buttonClicked(bool isWork)
+    Button {
+        x: 550
+        y: 0
+        text: qsTr("Start")
+        onClicked:
+               buttonClicked(true)
+    }
+    Button {
+        x: 550
+        y: 20
+        text: qsTr("Stop")
+        onClicked:
+               buttonClicked(false)
+    }
+
 }

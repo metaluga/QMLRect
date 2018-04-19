@@ -11,8 +11,9 @@ class Engine : public QObject
     int y = 0;
     int screenH = 480;
     int updateDelay = 5;
+
 public:
-    explicit Engine(QObject *parent = 0);
+    explicit Engine(int xPos, int yPos, QObject *parent = 0);
 
 
 signals:
