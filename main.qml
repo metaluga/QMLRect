@@ -25,15 +25,21 @@ Window {
 
     signal buttonClicked(bool isWork)
     Button {
-        x: 550
+        id: start
+        x: 450
         y: 0
+        width: 60
+        height: 40
         text: qsTr("Start")
         onClicked:
                buttonClicked(true)
     }
     Button {
+        id: stop
         x: 550
-        y: 20
+        y: 0
+        width: 60
+        height: 40
         text: qsTr("Stop")
         onClicked:
                buttonClicked(false)

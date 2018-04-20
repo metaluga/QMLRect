@@ -1,4 +1,3 @@
-#include <QThread>
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
@@ -22,24 +21,29 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
 
     myDB->updatePositionFromDB();
 
-    QThread* thread = new QThread();
+    engineThread = new QThread();
     Engine* myEngine = new Engine(xPos,yPos);
-    myEngine->moveToThread(thread);
-    connect(thread, SIGNAL (started()), myEngine, SLOT (itemRun()));
+    myEngine->moveToThread(engineThread);
+    connect(engineThread, SIGNAL (started()), myEngine, SLOT (itemRun()));
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
     connect(myEngine, SIGNAL(posChanged(QVariant, QVariant)), window, SLOT(updatePos(QVariant, QVariant)));
 
-    thread->start();
+    engineThread->start();
 
-    myEngine->setProgramStatus(false);
-    connect(window, SIGNAL(buttonClicked(bool)), myEngine, SLOT(setProgramStatus(bool)));
+    connect(window, SIGNAL(buttonClicked(bool)), myEngine, SLOT(setProgramStatus(bool)), Qt::DirectConnection);
 
     app.exec();
     myDB->savePosition(xPos, yPos);
     delete myDB;
+}
+
+Connector::~Connector()
+{
+    engineThread->quit();
+    engineThread->wait();
 }
 
 void Connector::test(bool button)
