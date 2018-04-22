@@ -8,6 +8,16 @@ Engine::Engine(int xPos, int yPos, QObject *parent) : QObject(parent), x(xPos), 
 
 }
 
+int Engine::getXPosition()
+{
+    return x;
+}
+
+int Engine::getYPosition()
+{
+    return y;
+}
+
 void Engine::itemRun()
 {
     bool isUp = true;

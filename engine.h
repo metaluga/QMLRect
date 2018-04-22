@@ -15,7 +15,8 @@ class Engine : public QObject
 
 public:
     explicit Engine(int xPos, int yPos, QObject *parent = 0);
-
+    int getXPosition();
+    int getYPosition();
 
 signals:
     void posChanged(QVariant xPos, QVariant yPos);

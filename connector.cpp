@@ -14,8 +14,6 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    //QObject *topLevel = engine.rootObjects().value(0);
-    //QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     SQLiteConnector* myDB = new SQLiteConnector();
     connect(myDB, SIGNAL(getPositions(int, int)), this, SLOT(positionUpdater(int, int)));
 
@@ -36,7 +34,7 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
     connect(window, SIGNAL(buttonClicked(bool)), myEngine, SLOT(setProgramStatus(bool)), Qt::DirectConnection);
 
     app.exec();
-    myDB->savePosition(xPos, yPos);
+    myDB->savePosition(myEngine->getXPosition(), myEngine->getYPosition());
     delete myDB;
 }
 
