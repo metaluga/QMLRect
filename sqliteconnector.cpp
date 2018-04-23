@@ -38,9 +38,7 @@ SQLiteConnector::SQLiteConnector(QObject *parent) : QObject(parent)
 
 SQLiteConnector::~SQLiteConnector()
 {
-    QSqlDatabase sdb = QSqlDatabase::addDatabase("QSQLITE");
-    sdb.setDatabaseName("db_name.sqlite");
-    sdb.close();
+
 }
 
 void SQLiteConnector::updatePositionFromDB()

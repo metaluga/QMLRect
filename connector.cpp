@@ -6,7 +6,6 @@
 #include <QDebug>
 #include "connector.h"
 #include "sqliteconnector.h"
-#include "engine.h"
 
 Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
 {
@@ -19,38 +18,57 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
 
     myDB->updatePositionFromDB();
 
-    engineThread = new QThread();
-    Engine* myEngine = new Engine(xPos,yPos);
-    myEngine->moveToThread(engineThread);
-    connect(engineThread, SIGNAL (started()), myEngine, SLOT (itemRun()));
+    //engineThread = new QThread();
+    myEngine = new Engine(xPos,yPos);
+    myEngine->moveToThread(&engineThread);
+    connect(&engineThread, SIGNAL (started()), myEngine, SLOT (itemRun()));
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
     connect(myEngine, SIGNAL(posChanged(QVariant, QVariant)), window, SLOT(updatePos(QVariant, QVariant)));
 
-    engineThread->start();
+    threadController(true);
 
-    connect(window, SIGNAL(buttonClicked(bool)), myEngine, SLOT(setProgramStatus(bool)), Qt::DirectConnection);
+    connect(this, SIGNAL(programStatusChanged(bool)), myEngine, SLOT(setProgramStatus(bool)), Qt::DirectConnection);
+    connect(window, SIGNAL(buttonClicked(bool)), this, SLOT(threadController(bool)));
 
     app.exec();
+    threadController(false);
     myDB->savePosition(myEngine->getXPosition(), myEngine->getYPosition());
     delete myDB;
 }
 
 Connector::~Connector()
 {
-    engineThread->quit();
-    engineThread->wait();
-}
-
-void Connector::test(bool button)
-{
-    qDebug()<<button;
+    threadController(false);
+    myEngine->setProgramStatus(false);
+    engineThread.quit();
+    engineThread.wait();
+    delete myEngine;
 }
 
 void Connector::positionUpdater(int x, int y)
 {
     xPos = x;
     yPos = y;
+}
+
+void Connector::threadController(const bool isRectMoved)
+{
+    if (objectIsMove != isRectMoved)
+    {
+        emit programStatusChanged(isRectMoved);
+
+        objectIsMove = isRectMoved;
+        if(isRectMoved)
+        {
+            engineThread.start();
+        }
+        else
+        {
+            engineThread.quit();
+            engineThread.wait();
+        }
+    }
 }

@@ -12,7 +12,7 @@ class Engine : public QObject
     int screenH = 480;
     int updateDelay = 5;
     bool isProgramWork = true;
-
+    bool isUp = true;
 public:
     explicit Engine(int xPos, int yPos, QObject *parent = 0);
     int getXPosition();

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+#include "engine.h"
 
 class Connector : public QObject
 {
@@ -10,15 +11,16 @@ class Connector : public QObject
     bool objectIsMove = false;
     int xPos = 0;
     int yPos = 0;
-    QThread* engineThread;
+    QThread engineThread;
+    Engine* myEngine;
 public:
     explicit Connector(int argc, char *argv[] ,QObject *parent = 0);
     ~Connector();
 signals:
-
+    void programStatusChanged(bool status);
 private slots:
-    void test(bool button);
     void positionUpdater(int x, int y);
+    void threadController(const bool isRectMoved);
 };
 
 #endif // CONNECTOR_H
