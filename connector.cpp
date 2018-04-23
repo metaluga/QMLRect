@@ -18,7 +18,6 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
 
     myDB->updatePositionFromDB();
 
-    //engineThread = new QThread();
     myEngine = new Engine(xPos,yPos);
     myEngine->moveToThread(&engineThread);
     connect(&engineThread, SIGNAL (started()), myEngine, SLOT (itemRun()));

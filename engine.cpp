@@ -21,7 +21,7 @@ int Engine::getYPosition()
 void Engine::itemRun()
 {
 
-    //while(true){
+
     while(isProgramWork)
     {
         if(isUp)
@@ -43,7 +43,6 @@ void Engine::itemRun()
         emit posChanged(x, y);
         QThread::msleep(updateDelay);
     }
-   // }
 }
 
 void Engine::setProgramStatus(bool workStatus)
