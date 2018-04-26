@@ -10,7 +10,7 @@ class Engine : public QObject
     int x = 250;
     int y = 0;
     int screenH = 480;
-    int updateDelay = 5;
+    int updateDelay = 2;
     bool isProgramWork = true;
     bool isUp = true;
 public:

@@ -19,6 +19,7 @@ public:
 signals:
     void programStatusChanged(bool status);
 private slots:
+    void windowIsUpdate();
     void positionUpdater(int x, int y);
     void threadController(const bool isRectMoved);
 };

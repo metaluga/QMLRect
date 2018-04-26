@@ -21,9 +21,6 @@ int Engine::getYPosition()
 void Engine::itemRun()
 {
 
-
-    while(isProgramWork)
-    {
         if(isUp)
         {
             ++y;
@@ -40,9 +37,9 @@ void Engine::itemRun()
         {
             isUp = true;
         }
-        emit posChanged(x, y);
         QThread::msleep(updateDelay);
-    }
+        emit posChanged(x, y);
+
 }
 
 void Engine::setProgramStatus(bool workStatus)

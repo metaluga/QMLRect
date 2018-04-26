@@ -7,9 +7,11 @@ Window {
     visible: true
     width: 640
     height: 480
+    signal positionUpdate()
     function updatePos(xPos, yPos){
         rectangle1.x=xPos
         rectangle1.y=yPos
+        positionUpdate()
     }
 
 

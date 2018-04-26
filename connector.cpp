@@ -31,7 +31,7 @@ Connector::Connector(int argc, char *argv[], QObject *parent) : QObject(parent)
 
     connect(this, SIGNAL(programStatusChanged(bool)), myEngine, SLOT(setProgramStatus(bool)), Qt::DirectConnection);
     connect(window, SIGNAL(buttonClicked(bool)), this, SLOT(threadController(bool)));
-
+    connect(window, SIGNAL(positionUpdate()), this, SLOT(windowIsUpdate()));
     app.exec();
     threadController(false);
     myDB->savePosition(myEngine->getXPosition(), myEngine->getYPosition());
@@ -45,6 +45,16 @@ Connector::~Connector()
     engineThread.quit();
     engineThread.wait();
     delete myEngine;
+}
+
+void Connector::windowIsUpdate()
+{
+    if (objectIsMove)
+    {
+        engineThread.quit();
+        engineThread.wait();
+        engineThread.start();
+    }
 }
 
 void Connector::positionUpdater(int x, int y)
